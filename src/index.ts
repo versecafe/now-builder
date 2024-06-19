@@ -34,7 +34,7 @@ interface Output {
 function validateDistDir(
   distDir: string,
   isDev: boolean | undefined,
-  config: Config
+  config: Config,
 ): void {
   const distDirName = path.basename(distDir);
   const exists = (): boolean => existsSync(distDir);
@@ -56,13 +56,13 @@ function validateDistDir(
 
   if (!isDirectory()) {
     throw new Error(
-      `Build failed because distDir is not a directory: "${distDirName}".${info}`
+      `Build failed because distDir is not a directory: "${distDirName}".${info}`,
     );
   }
 
   if (isEmpty()) {
     throw new Error(
-      `Build failed because distDir is empty: "${distDirName}".${info}`
+      `Build failed because distDir is empty: "${distDirName}".${info}`,
     );
   }
 }
@@ -100,7 +100,7 @@ export async function build({
   const distPath = path.join(
     workPath,
     mountpoint,
-    (config && (config.distDir as string)) || "build"
+    (config && (config.distDir as string)) || "build",
   );
 
   const entrypointName = path.basename(entrypoint);
@@ -122,7 +122,7 @@ export async function build({
       { src: `${prefix}/favicon.ico`, dest: "favicon.ico" },
       {
         src: `${prefix}($|/.*)`,
-        headers: { "cache-control": "s-maxage=1,stale-while-revalidate" },
+        // headers: { "cache-control": "s-maxage=1,stale-while-revalidate" },
         dest: `/server.js`,
       },
     ];
@@ -138,12 +138,12 @@ export async function build({
     const found = await runPackageJsonScript(
       entrypointDir,
       buildScript,
-      spawnOpts
+      spawnOpts,
     );
 
     if (!found) {
       throw new Error(
-        `Missing required "${buildScript}" script in "${entrypoint}"`
+        `Missing required "${buildScript}" script in "${entrypoint}"`,
       );
     }
 
@@ -156,7 +156,7 @@ export async function build({
 
     if (!server["server.js"])
       throw new Error(
-        "Something went wrong with the build. Please run `npx frontity dev --production` locally to find out."
+        "Something went wrong with the build. Please run `npx frontity dev --production` locally to find out.",
       );
 
     if (robotsTxt["robots.txt"])
